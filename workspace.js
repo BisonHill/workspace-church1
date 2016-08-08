@@ -70,6 +70,8 @@ cpdefine("inline:com-chilipeppr-workspace-church1", ["chilipeppr_ready"], functi
             
             this.loadTemplateWidget();
             
+            this.loadLuaEditorWidget();
+            
             // Create our workspace upper right corner triangle menu
             this.loadWorkspaceMenu();
             // Add our billboard to the menu (has name, url, picture of workspace)
@@ -114,6 +116,29 @@ cpdefine("inline:com-chilipeppr-workspace-church1", ["chilipeppr_ready"], functi
          */
         onResize: function() {
             if (this.widgetConsole) this.widgetConsole.resize();
+        },
+                /**
+         * Load the Lua Editor widget via chilipeppr.load()
+         * widget they can fork as a starting point for their own.
+         */
+        loadLuaEditorWidget: function(callback) {
+
+            chilipeppr.load(
+              "com-chilipeppr-widget-luaeditor-instance",
+              "http://raw.githubusercontent.com/chilipeppr/widget-luaeditor/master/auto-generated-widget.html",
+              function() {
+                // Callback after widget loaded into #myDivWidgetLuaeditor
+                // Now use require.js to get reference to instantiated widget
+                cprequire(
+                  ["inline:com-chilipeppr-widget-luaeditor"], // the id you gave your widget
+                  function(myObjWidgetLuaeditor) {
+                    // Callback that is passed reference to the newly loaded widget
+                    console.log("Widget / Lua Editor just got loaded.", myObjWidgetLuaeditor);
+                    myObjWidgetLuaeditor.init();
+                  }
+                );
+              }
+            );
         },
         /**
          * Load the Template widget via chilipeppr.load() so folks have a church1
